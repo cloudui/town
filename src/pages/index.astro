@@ -1,0 +1,125 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import "@fontsource/pixelify-sans/latin-400.css";
+import "@fontsource/pixelify-sans/latin-600.css";
+import "@fontsource/pixelify-sans/latin-700.css";
+import "@fontsource/figtree/latin-400.css";
+import "@fontsource/figtree/latin-600.css";
+import "../styles/town.css";
+import Panels from "../components/Panels.astro";
+import { site, places, directory, links } from "../content/site.js";
+
+// Which hand-drawn PNGs exist? Checked at build time (and on every request in dev),
+// so the page only asks for files that are really there.
+const art = {};
+for (const mode of ["day", "night"]) {
+  const dir = path.join(process.cwd(), "public", "art", mode);
+  art[mode] = fs.existsSync(dir)
+    ? fs.readdirSync(dir).filter((f) => f.endsWith(".png")).map((f) => f.slice(0, -4))
+    : [];
+}
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const townData = JSON.stringify({ art, artBase: `${base}art/` });
+
+const pageUrl = new URL(base, Astro.site).href;
+const ogImage = new URL(`${base}og.png`, Astro.site).href;
+const ext = { target: "_blank", rel: "noopener" };
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
+    <link rel="canonical" href={pageUrl} />
+    <meta name="theme-color" content="#fbe8c5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060918" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}favicon-32.png`} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="echen.io" />
+    <meta property="og:title" content={site.name} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A pixel-art street at golden hour with a library, a photo booth, a kernel shop, an ice cream cart, and a mall." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={site.twitter} />
+
+    {[...art.day.map((n) => `day/${n}`), ...art.night.map((n) => `night/${n}`)].map((p) => (
+      <link rel="preload" as="image" href={`${base}art/${p}.png`} />
+    ))}
+  </head>
+  <body>
+    <div id="app">
+      <div id="scroller">
+        <div id="stage">
+          <canvas id="town" aria-hidden="true"></canvas>
+          <div id="tag" class="pix" hidden></div>
+          {Object.entries(places).map(([id, pl]) => {
+            const common = {
+              class: "spot",
+              "data-spot": id,
+              "data-name": pl.name,
+              "data-blurb": pl.blurb,
+              "aria-label": `${pl.name}: ${pl.blurb}`,
+            };
+            return pl.href
+              ? <a {...common} href={pl.href} {...ext}></a>
+              : <button {...common} type="button" data-panel={pl.panel} data-pet={pl.pet ? "" : undefined}></button>;
+          })}
+        </div>
+      </div>
+
+      <header class="hud top">
+        <div class="plate pix">
+          <h1>{site.name}</h1>
+          <p>{site.tagline}</p>
+        </div>
+        <button id="mode" class="pbtn" type="button" aria-pressed="false">
+          <svg viewBox="0 0 8 8" aria-hidden="true"><g id="mode-icon" fill="currentColor"></g></svg>
+          <span id="mode-label">Night</span>
+        </button>
+      </header>
+
+      <footer class="hud bottom">
+        <div class="hint pix" id="hint">Hover around town. Click a place to go in.</div>
+        <button id="dir-btn" class="pbtn" type="button">Directory</button>
+      </footer>
+    </div>
+
+    <div id="panel" hidden>
+      <div class="card pix" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+        <button class="pbtn close" type="button" id="panel-close">Close</button>
+        <div id="panel-body"></div>
+      </div>
+    </div>
+
+    <Panels />
+
+    <noscript>
+      <div class="nojs">
+        <div class="card pix">
+          <h2>{site.name}</h2>
+          <p>{site.tagline}. The town needs JavaScript; here are the links.</p>
+          <ul class="dir">
+            {directory.links.map((l) => <li><a href={l.href}>{l.label}</a><span>{l.handle}</span></li>)}
+            <li><a href={`mailto:${links.email}`}>Email</a><span>{links.email}</span></li>
+          </ul>
+        </div>
+      </div>
+    </noscript>
+
+    <script type="application/json" id="town-data" set:html={townData} />
+    <script>
+      import "../scripts/main.js";
+    </script>
+  </body>
+</html>

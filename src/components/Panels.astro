@@ -1,0 +1,46 @@
+---
+// Renders each panel from src/content/site.js into a <template>.
+// panels.js clones the right one into the card when a place is opened.
+import { panels, directory } from "../content/site.js";
+
+const ext = { target: "_blank", rel: "noopener" };
+---
+{Object.entries(panels).map(([id, p]) => (
+  <template id={`t-${id}`}>
+    <h2 id="panel-title">{p.title}</h2>
+    {p.body?.map((text, i) => <p class={p.lede && i === 0 ? "lede" : undefined}>{text}</p>)}
+    {p.items && (
+      <ul class="list">
+        {p.items.map((it) => (
+          <li>
+            <div class="head"><h3>{it.title}</h3>{it.chip && <span class="chip">{it.chip}</span>}</div>
+            <p>{it.text}</p>
+            {it.link && <a href={it.link.href} {...ext}>{it.link.label}</a>}
+          </li>
+        ))}
+      </ul>
+    )}
+    {p.email && (
+      <>
+        <div class="mailrow">
+          <code id="email">{p.email}</code>
+          <button class="pbtn" type="button" data-copy="email">Copy</button>
+        </div>
+        <p class="muted" data-copied hidden aria-live="polite">Copied to your clipboard.</p>
+      </>
+    )}
+    {p.link && <a href={p.link.href} {...ext}>{p.link.label}</a>}
+  </template>
+))}
+
+<template id="t-directory">
+  <h2 id="panel-title">{directory.title}</h2>
+  <ul class="dir">
+    {directory.places.map((d) => (
+      <li><button type="button" data-open={d.panel}>{d.name}</button><span>{d.note}</span></li>
+    ))}
+    {directory.links.map((l) => (
+      <li><a href={l.href} {...ext}>{l.label}</a><span>{l.handle}</span></li>
+    ))}
+  </ul>
+</template>
