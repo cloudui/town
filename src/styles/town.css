@@ -104,3 +104,40 @@ body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 var
 /* Shown only without JavaScript */
 .nojs { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px; background: var(--page); }
 .nojs .card { max-height: none; }
+
+/* ---------- Photo booth: polaroid prints ---------- */
+:root { --paper: #fffdf6; --paper-ink: #3a2b26; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #e9e4d6; } }
+:root[data-theme="dark"] { --paper: #e9e4d6; }
+
+.card.wide { max-width: 44rem; }
+.prints { list-style: none; margin: 18px 0 20px; padding: 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 18px; }
+.print { display: block; width: 100%; margin: 0; padding: 7px 7px 0; border: 0; background: var(--paper); color: var(--paper-ink); cursor: pointer; text-align: center;
+  box-shadow: 0 0 0 2px var(--edge), 4px 4px 0 2px var(--shadow); transform: rotate(var(--tilt, 0deg)); transition: transform .14s ease-out; }
+.prints li:nth-child(3n+1) .print { --tilt: -2.2deg; }
+.prints li:nth-child(3n+2) .print { --tilt: 1.4deg; }
+.prints li:nth-child(3n) .print { --tilt: -0.8deg; }
+.print:hover, .print:focus-visible { transform: rotate(0deg) translate(-1px, -3px) scale(1.03); }
+.print:focus-visible { outline: 2px dashed var(--accent); outline-offset: 5px; }
+.print img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: #d9d2c2; }
+.print .cap { display: block; padding: 8px 2px 10px; font: 600 14px/1.2 var(--pixel); overflow-wrap: anywhere; }
+
+.viewer { margin: 14px 0 20px; }
+.print.big { cursor: default; padding: 10px 10px 0; transform: rotate(-0.6deg); width: min(100%, calc(56vh * 4 / 3 + 20px)); margin-inline: auto; }
+.print.big img { aspect-ratio: auto; object-fit: contain; max-height: 62vh; background: transparent; }
+.print.big .cap { font-size: 17px; padding: 10px 2px 14px; }
+.viewer .note { margin: 18px 0 14px; }
+.viewer-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.viewer-nav .count { font: 600 14px/1 var(--pixel); color: var(--muted); min-width: 3.5em; text-align: center; font-variant-numeric: tabular-nums; }
+.viewer-nav .back { margin-left: auto; }
+
+@media (max-width: 560px) {
+  .prints { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+  .prints li:nth-child(odd) .print { --tilt: -1.6deg; }
+  .prints li:nth-child(even) .print { --tilt: 1.2deg; }
+  .print .cap { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .print { transition: none; }
+  .print:hover, .print:focus-visible { transform: rotate(var(--tilt, 0deg)); }
+}

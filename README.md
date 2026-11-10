@@ -17,6 +17,7 @@ npm run build      # -> dist/
 | Page title, description, Open Graph tags | `src/content/site.js` (`site`) and `src/pages/index.astro` |
 | Colors of the UI (cards, buttons) | `src/styles/town.css` |
 | Art | `public/art/{day,night}/<name>.png` (see below) |
+| Photo booth prints | `public/photos/` + the `photos` list in `src/content/site.js` (see below) |
 
 The scene code in `src/scripts/`:
 
@@ -64,6 +65,17 @@ During the transition it's fine to use downloaded art. Prefer CC0 or clearly lic
 | File | Source | License |
 | --- | --- | --- |
 | _none yet_ | | |
+
+## Photo booth
+
+Each print needs two files in `public/photos/`, a 900px photo and a 480px thumbnail, plus an entry in `panels.photos.photos` in `src/content/site.js` (caption, longer note, alt text). Convert with `cwebp`, which also strips GPS and camera metadata:
+
+```sh
+cwebp -q 78 photo.jpg -o public/photos/name.webp
+cwebp -q 75 -resize 480 0 photo.jpg -o public/photos/name-thumb.webp
+```
+
+Landscape 4:3 photos fit the frames best; other shapes are center-cropped in the thumbnail and shown whole when opened.
 
 ## Icons and link preview
 

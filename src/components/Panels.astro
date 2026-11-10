@@ -4,11 +4,48 @@
 import { panels, directory } from "../content/site.js";
 
 const ext = { target: "_blank", rel: "noopener" };
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const photo = (file: string, thumb = false) => `${base}photos/${file}${thumb ? "-thumb" : ""}.webp`;
 ---
 {Object.entries(panels).map(([id, p]) => (
-  <template id={`t-${id}`}>
+  <template id={`t-${id}`} data-wide={p.wide ? "" : undefined}>
     <h2 id="panel-title">{p.title}</h2>
     {p.body?.map((text, i) => <p class={p.lede && i === 0 ? "lede" : undefined}>{text}</p>)}
+    {p.photos && (
+      <>
+        <ul class="prints" data-prints>
+          {p.photos.map((ph, i) => (
+            <li>
+              <button
+                type="button"
+                class="print"
+                data-photo={i}
+                data-full={photo(ph.file)}
+                data-caption={ph.caption}
+                data-note={ph.note}
+                aria-label={`Open photo: ${ph.caption}`}
+              >
+                <img src={photo(ph.file, true)} alt={ph.alt} width="480" height="360" loading="lazy" decoding="async" />
+                <span class="cap" aria-hidden="true">{ph.caption}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="viewer" data-viewer hidden>
+          <figure class="print big">
+            <img alt="" width="900" height="675" />
+            <figcaption class="cap"></figcaption>
+          </figure>
+          <p class="note"></p>
+          <div class="viewer-nav">
+            <button class="pbtn" type="button" data-step="-1" aria-label="Previous photo">←</button>
+            <span class="count" aria-live="polite"></span>
+            <button class="pbtn" type="button" data-step="1" aria-label="Next photo">→</button>
+            <button class="pbtn back" type="button" data-back>All photos</button>
+          </div>
+        </div>
+      </>
+    )}
     {p.items && (
       <ul class="list">
         {p.items.map((it) => (

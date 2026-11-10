@@ -16,7 +16,6 @@ export const links = {
   x: { label: "X", handle: "@below_ocean", href: "https://x.com/below_ocean" },
   linkedin: { label: "LinkedIn", handle: "ericchen03", href: "https://linkedin.com/in/ericchen03" },
   blog: { label: "Blog", handle: "blog.echen.io", href: "https://blog.echen.io" },
-  instagram: { label: "Instagram", handle: "@violeric", href: "https://instagram.com/violeric" },
   email: "ericchen314@gmail.com",
 };
 
@@ -74,10 +73,50 @@ export const panels = {
   },
   photos: {
     title: "Photo booth",
-    body: [
-      "Photos of cities, food, and whatever catches my eye. A proper gallery is being built. For now the prints are on Instagram.",
+    wide: true,
+    body: ["Photos of cities, food, and whatever catches my eye. Tap a print to see it bigger."],
+    // Files live in public/photos/: <file>.webp (900px) and <file>-thumb.webp (480px).
+    //   caption: short, written on the print
+    //   note:    the longer story, shown when the print is opened
+    //   alt:     what's in the picture, for screen readers
+    photos: [
+      {
+        file: "lands_end",
+        caption: "Lands End, SF",
+        note: "The first view from Lands End in San Francisco.",
+        alt: "A foggy view over green hills and a winding trail down to the ocean, with rocks offshore.",
+      },
+      {
+        file: "paintedladies",
+        caption: "Painted Ladies",
+        note: "The Painted Ladies on a weekend trip to San Francisco.",
+        alt: "The row of Victorian houses at Alamo Square, with a lawn in front and the hazy downtown skyline behind.",
+      },
+      {
+        file: "stanford_rainbow",
+        caption: "Pink-sky rainbow",
+        note: "A surprising rain-free rainbow spotted on Stanford campus.",
+        alt: "A faint rainbow in a pink sunset sky over Stanford's Main Quad, with palm trees and sandstone arcades.",
+      },
+      {
+        file: "kirby",
+        caption: "Kirby over Philly",
+        note: "Kirby looming in the background of Philadelphia. This was my second ever Photoshop project.",
+        alt: "A photo edit of a giant pink Kirby rising behind the Philadelphia skyline at dusk, above a river.",
+      },
+      {
+        file: "tjefferson",
+        caption: "Jefferson Memorial",
+        note: "The Jefferson Memorial in Washington, D.C., near sunset.",
+        alt: "The domed Jefferson Memorial across the Tidal Basin at sunset, under heavy clouds, reflected in the water.",
+      },
+      {
+        file: "gummybears",
+        caption: "Black Hill",
+        note: "An iconic picture I took at Black Hill Regional Park, symbolizing a friend group I had in high school.",
+        alt: "Four gummy bears lined up behind a peeled clementine and two crackers on a weathered railing, with a lake at dusk behind.",
+      },
     ],
-    link: { label: "@violeric on Instagram →", href: links.instagram.href },
   },
   about: {
     title: "Ice cream stand",

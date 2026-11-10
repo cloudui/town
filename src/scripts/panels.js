@@ -1,10 +1,13 @@
 // The pop-up cards. Their content is rendered from src/content/site.js into
 // <template id="t-<name>"> elements by Panels.astro; this file just shows them.
 
+import { photoClick, photoKey } from "./photobooth.js";
+
 const app = document.getElementById("app");
 const panel = document.getElementById("panel");
 const body = document.getElementById("panel-body");
 const closeBtn = document.getElementById("panel-close");
+const card = panel.querySelector(".card");
 let returnFocus = null;
 
 export function openPanel(id, from) {
@@ -12,6 +15,7 @@ export function openPanel(id, from) {
   if (!tpl) return;
   if (panel.hidden) returnFocus = from || document.activeElement;
   body.replaceChildren(tpl.content.cloneNode(true));
+  card.classList.toggle("wide", tpl.dataset.wide !== undefined);
   panel.hidden = false;
   app.inert = true; // keep Tab inside the card
   closeBtn.focus();
@@ -47,9 +51,14 @@ export function initPanels() {
     if (e.target === panel) return closePanel();
     const open = e.target.closest("[data-open]");
     if (open) return openPanel(open.dataset.open);
+    if (photoClick(e, body)) return;
     const btn = e.target.closest("[data-copy]");
     if (btn) copy(btn);
   });
-  addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) closePanel(); });
+  addEventListener("keydown", (e) => {
+    if (panel.hidden) return;
+    if (photoKey(e, body)) return e.preventDefault();
+    if (e.key === "Escape") closePanel();
+  });
   document.getElementById("dir-btn").addEventListener("click", (e) => openPanel("directory", e.currentTarget));
 }
