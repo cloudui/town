@@ -3,6 +3,7 @@
 // panels.js clones the right one into the card when a place is opened.
 import { panels, directory } from "../content/site.js";
 import books from "../content/books.json";
+import PixelLogo from "./PixelLogo.astro";
 
 const ext = { target: "_blank", rel: "noopener" };
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
@@ -47,8 +48,40 @@ const photo = (file: string, thumb = false) => `${base}photos/${file}${thumb ? "
         </div>
       </>
     )}
+    {p.jobs && (
+      <section class="jobs-wrap" data-picker>
+        {p.jobsTitle && <h3 class="sec">{p.jobsTitle}</h3>}
+        <ul class="jobs">
+          {p.jobs.map((j, i) => (
+            <li>
+              <button type="button" class:list={["sign", { on: i === 0 }]} data-pick aria-pressed={i === 0 ? "true" : "false"}>
+                {/* string from the top corners up to a pushpin */}
+                <svg class="hang" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M1 20 L50 3 L99 20" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" />
+                </svg>
+                <span class="pin" aria-hidden="true"></span>
+                <span class="logo"><PixelLogo name={j.logo} label={`${j.name} logo`} /></span>
+                <span class="name">{j.name}</span>
+                <span class="role">{j.role}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="blurbs">
+          {p.jobs.map((j, i) => (
+            <div class:list={["blurb", { on: i === 0 }]} data-blurb>
+              <h3>{j.title || j.role}, {j.name}</h3>
+              {(j.when || j.where) && <p class="date">{[j.when, j.where].filter(Boolean).join(" · ")}</p>}
+              {j.text && <p>{j.text}</p>}
+              {j.points && <ul class="points">{j.points.map((t) => <li>{t}</li>)}</ul>}
+              {j.link && <a href={j.link.href} {...ext}>{j.link.label}</a>}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
     {p.shelf && books.length > 0 && (
-      <div class="shelf-wrap" data-shelf>
+      <div class="shelf-wrap" data-picker>
         <ul class="shelf">
           {books.map((b, i) => (
             <li>
@@ -56,7 +89,7 @@ const photo = (file: string, thumb = false) => `${base}photos/${file}${thumb ? "
                 class:list={["book", { on: i === 0 }]}
                 href={b.href}
                 {...ext}
-                data-book={i}
+                data-pick
                 aria-label={[b.title, b.desc].filter(Boolean).join(": ")}
               >
                 <span aria-hidden="true">{b.title}</span>
@@ -78,6 +111,7 @@ const photo = (file: string, thumb = false) => `${base}photos/${file}${thumb ? "
         </div>
       </div>
     )}
+    {p.items && p.itemsTitle && <h3 class="sec">{p.itemsTitle}</h3>}
     {p.items && (
       <ul class="list">
         {p.items.map((it) => (

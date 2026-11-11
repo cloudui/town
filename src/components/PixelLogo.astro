@@ -1,0 +1,30 @@
+---
+// Draws a logo from src/content/logos.js as SVG: one <path> per color, made of a
+// rectangle for each run of same-colored cells. Keeping a color in a single path
+// means no hairline seams appear between cells when a sign is tilted.
+import { logos } from "../content/logos.js";
+
+const { name, label } = Astro.props;
+const logo = logos[name];
+if (!logo) throw new Error(`No logo named "${name}" in src/content/logos.js`);
+const { rows, colors, px = 3 } = logo;
+const w = rows[0].length, h = rows.length;
+
+const paths = {}; // color -> path data
+rows.forEach((row, y) => {
+  if (row.length !== w) throw new Error(`Logo "${name}": row ${y} is ${row.length} wide, expected ${w}`);
+  for (let x = 0; x < w; ) {
+    const ch = row[x];
+    let end = x + 1;
+    while (end < w && row[end] === ch) end++;
+    if (ch !== ".") {
+      if (!colors[ch]) throw new Error(`Logo "${name}": no color for "${ch}"`);
+      paths[colors[ch]] = (paths[colors[ch]] || "") + `M${x} ${y}h${end - x}v1h${x - end}z`;
+    }
+    x = end;
+  }
+});
+---
+<svg class="pxlogo" viewBox={`0 0 ${w} ${h}`} width={w * px} height={h * px} role="img" aria-label={label}>
+  {Object.entries(paths).map(([fill, d]) => <path fill={fill} d={d} />)}
+</svg>

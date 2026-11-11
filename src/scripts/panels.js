@@ -2,7 +2,7 @@
 // <template id="t-<name>"> elements by Panels.astro; this file just shows them.
 
 import { photoClick, photoKey } from "./photobooth.js";
-import { initShelf } from "./bookshelf.js";
+import { initPickers } from "./picker.js";
 
 const app = document.getElementById("app");
 const panel = document.getElementById("panel");
@@ -47,7 +47,7 @@ function copy(btn) {
 }
 
 export function initPanels() {
-  initShelf(panel);
+  initPickers(panel);
   closeBtn.addEventListener("click", closePanel);
   panel.addEventListener("click", (e) => {
     if (e.target === panel) return closePanel();

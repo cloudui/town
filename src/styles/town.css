@@ -171,3 +171,49 @@ body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 var
   .book { transition: none; }
   .book:hover, .book.on { transform: none; }
 }
+
+/* Section heading inside a card: a label with a dashed rule running to the edge */
+.card .sec { display: flex; align-items: center; gap: 12px; margin: 26px 0 0; font: 600 14px/1.2 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.sec::after { content: ""; flex: 1; border-top: 2px dashed var(--muted); opacity: .55; }
+.sec + .list { margin-top: 14px; }
+
+/* ---------- Kernel works: job signs, each hanging from its own pushpin ---------- */
+.jobs { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 12px; }
+.jobs li { padding: 34px 8px 0; }
+/* Each sign is a little cork board in a wooden frame; the logo is on a note pinned to it. */
+:root { --cork: #d3a56c; --cork-lo: #b98a52; --cork-hi: #e4c08c; --wood: #7a5a45; --pin: #c4504a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cork: #b48a58; --cork-lo: #987043; --cork-hi: #c9a172; --wood: #54405a; --pin: #ff4fa3; } }
+:root[data-theme="dark"] { --cork: #b48a58; --cork-lo: #987043; --cork-hi: #c9a172; --wood: #54405a; --pin: #ff4fa3; }
+.sign { position: relative; display: block; width: 100%; height: 100%; margin: 0; border: 4px solid var(--wood); padding: 10px 6px 10px; color: var(--paper-ink);
+  background-color: var(--cork);
+  background-image: radial-gradient(var(--cork-lo) 1px, transparent 1.3px), radial-gradient(var(--cork-hi) 1px, transparent 1.3px), radial-gradient(var(--cork-lo) 1px, transparent 1.3px);
+  background-size: 11px 9px, 13px 11px, 17px 15px; background-position: 2px 3px, 7px 6px, 11px 1px; font: inherit; text-align: center; cursor: pointer;
+  box-shadow: 0 0 0 2px var(--edge), 4px 4px 0 2px var(--shadow); transform: rotate(var(--tilt, 0deg)); transform-origin: 50% -26px; transition: transform .14s ease-out; }
+.jobs li:nth-child(3n+1) .sign { --tilt: -1.6deg; }
+.jobs li:nth-child(3n+2) .sign { --tilt: 1deg; }
+.jobs li:nth-child(3n) .sign { --tilt: -0.6deg; }
+/* the picked sign hangs straight and gets an accent frame */
+.jobs li .sign.on { --tilt: 0deg; box-shadow: 0 0 0 2px var(--edge), 0 0 0 5px var(--accent), 6px 6px 0 4px var(--shadow); }
+.sign:focus-visible { outline: 2px dashed var(--accent); outline-offset: 8px; }
+/* the string runs from the sign's top corners up to the pin, and the sign pivots on the pin */
+.sign .hang { position: absolute; left: -4px; bottom: calc(100% + 4px); width: calc(100% + 8px); height: 24px; color: var(--edge); overflow: visible; }
+.sign .pin { position: absolute; left: 50%; bottom: calc(100% + 20px); width: 10px; height: 10px; margin-left: -5px; background: var(--pin);
+  box-shadow: 0 0 0 2px var(--edge), inset 3px 3px 0 rgba(255, 255, 255, .4); }
+.sign span { display: block; }
+.sign .logo { position: relative; width: 78px; max-width: 100%; height: 60px; display: grid; place-items: center; margin: 4px auto 10px; background: var(--paper); box-shadow: 2px 2px 0 rgba(58, 43, 38, .28); }
+.sign .logo::before { content: ""; position: absolute; top: -4px; left: 50%; width: 6px; height: 6px; margin-left: -3px; background: var(--pin); box-shadow: 1px 1px 0 rgba(58, 43, 38, .45), inset 2px 2px 0 rgba(255, 255, 255, .35); }
+.pxlogo { display: block; max-width: 100%; height: auto; }
+.sign .name { font: 600 16px/1.25 var(--pixel); }
+.sign .role { margin-top: 2px; font-size: 13px; line-height: 1.3; }
+.jobs-wrap { margin: 0 0 6px; }
+.jobs-wrap .blurbs { margin-top: 20px; }
+.points { margin: 0 0 8px; padding-left: 18px; font-size: 15px; }
+.points li + li { margin-top: 2px; }
+@media (max-width: 420px) {
+  .jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .jobs li:nth-child(odd) .sign { --tilt: -1.4deg; }
+  .jobs li:nth-child(even) .sign { --tilt: 1deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sign { transition: none; }
+}

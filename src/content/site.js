@@ -39,6 +39,8 @@ export const places = {
 //   items: cards with a title, a small chip, text, and a link
 //   link:  one link under the text
 //   email: shows the address with a Copy button
+//   jobs:  hanging signs with pixel logos (Kernel works only)
+//   jobsTitle, itemsTitle: section headings above the signs and the cards
 //   shelf: the bookshelf of recent blog posts (Library only)
 export const panels = {
   work: {
@@ -47,6 +49,43 @@ export const panels = {
     body: [
       "I write GPU kernels and work on LLM inference. Before this I was a machine learning engineer at Meta, working on ranking for Facebook Reels.",
     ],
+    // Cork-board signs hanging from pushpins, one per place I've worked. Picking a sign shows its details.
+    //   logo:   a key in src/content/logos.js (pixel art)
+    //   role:   short, written on the sign.  title: longer version for the details (optional)
+    //   when, where, text, link: shown in the details; leave any out to skip it
+    //   points: optional bullet list, if one line of `text` isn't enough
+    jobsTitle: "Where I've worked",
+    jobs: [
+      {
+        logo: "meta",
+        name: "Meta",
+        role: "ML engineer",
+        title: "Machine learning engineer",
+        when: "Aug 2025 to May 2026",
+        text: "User engagement research for Facebook Reels (sorry for your addiction).",
+        link: { label: "meta.com →", href: "https://meta.com" },
+      },
+      {
+        logo: "viam",
+        name: "Viam",
+        role: "SWE intern",
+        title: "Software engineer intern",
+        when: "May to Aug 2024",
+        where: "New York",
+        text: "Fixing GPU drivers for Raspberry Pi robots and pinpoint GPS control.",
+        link: { label: "viam.com →", href: "https://viam.com" },
+      },
+      {
+        logo: "bitcamp",
+        name: "Bitcamp",
+        role: "Tech director",
+        when: "Oct 2023 to May 2025",
+        where: "University of Maryland",
+        text: "Building apps and roasting marshmallows for 2k hackers.",
+        link: { label: "bit.camp →", href: "https://bit.camp" },
+      },
+    ],
+    itemsTitle: "Things I've built",
     items: [
       {
         title: "Llama 3.1 8B inference engine",

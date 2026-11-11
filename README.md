@@ -13,7 +13,7 @@ npm run build      # -> dist/
 
 | To change… | Edit |
 | --- | --- |
-| Any text: name, tagline, panel copy, links, email | `src/content/site.js` |
+| Any text: name, tagline, panel copy, jobs, links, email | `src/content/site.js` |
 | Page title, description, Open Graph tags | `src/content/site.js` (`site`) and `src/pages/index.astro` |
 | Colors of the UI (cards, buttons) | `src/styles/town.css` |
 | Art | `public/art/{day,night}/<name>.png` (see below) |
@@ -31,7 +31,7 @@ The scene code in `src/scripts/`:
 | `hotspots.js` | Clickable shapes (from alpha), hover outlines and labels, touch tap-twice |
 | `panels.js` | Opening/closing cards, focus handling, copy email |
 | `photobooth.js` | The photo booth's print grid and viewer |
-| `bookshelf.js` | The Library's shelf of recent blog posts |
+| `picker.js` | Pick-one rows in panels: the Library's bookshelf and the Kernel works job signs |
 | `theme.js` | Day/night toggle |
 | `palette.js`, `pixel.js` | Colors and small drawing helpers |
 
@@ -78,6 +78,10 @@ cwebp -q 75 -resize 480 0 photo.jpg -o public/photos/name-thumb.webp
 ```
 
 Landscape 4:3 photos fit the frames best; other shapes are center-cropped in the thumbnail and shown whole when opened.
+
+## Job signs
+
+The signs on a string in the Kernel works panel come from `panels.work.jobs` in `src/content/site.js`: the sign shows the logo, name, and short role, and picking one shows its dates, place, one-line description, and link below. Logos are pixel grids in `src/content/logos.js`; to add a company, draw its grid there and use the key as `logo`.
 
 ## Library books
 
