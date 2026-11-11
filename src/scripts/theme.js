@@ -18,6 +18,7 @@ const MOON = [[2,0],[3,0],[4,0],[1,1],[2,1],[0,2],[1,2],[0,3],[1,3],[0,4],[1,4],
 
 export function paintToggle(mode) {
   const night = mode === "night";
+  root.dataset.mode = mode; // lets CSS restyle things by the mode actually showing (e.g. neon job signs)
   document.getElementById("mode-label").textContent = night ? "Day" : "Night";
   btn.setAttribute("aria-pressed", String(night));
   btn.setAttribute("aria-label", night ? "Switch to day" : "Switch to night");

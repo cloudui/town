@@ -209,6 +209,22 @@ body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 var
 .jobs-wrap .blurbs { margin-top: 20px; }
 .points { margin: 0 0 8px; padding-left: 18px; font-size: 15px; }
 .points li + li { margin-top: 2px; }
+/* Night: the cork boards turn into neon signs on a dark LED panel, one color each.
+   theme.js sets data-mode on <html> to the mode that's showing. */
+.jobs li:nth-child(3n+1) { --neon: #3ff0ff; }
+.jobs li:nth-child(3n+2) { --neon: #ff4fa3; }
+.jobs li:nth-child(3n) { --neon: #ffb347; }
+[data-mode="night"] .sign { border-color: var(--neon); color: #c9cdf5; background-color: #070920;
+  background-image: radial-gradient(rgba(255, 255, 255, .1) 1px, transparent 1.3px); background-size: 6px 6px; background-position: 1px 1px;
+  box-shadow: 0 0 0 2px #05061a, 0 0 10px var(--neon), inset 0 0 10px color-mix(in srgb, var(--neon) 35%, transparent); }
+/* the picked sign burns brighter */
+[data-mode="night"] .jobs li .sign.on { box-shadow: 0 0 0 2px #05061a, 0 0 8px 2px var(--neon), 0 0 30px 6px var(--neon), inset 0 0 18px color-mix(in srgb, var(--neon) 60%, transparent); }
+[data-mode="night"] .sign .hang { color: #4a4f86; }
+[data-mode="night"] .sign .pin { background: #4a4f86; box-shadow: 0 0 0 2px #05061a; }
+[data-mode="night"] .sign .logo { background: none; box-shadow: none; }
+[data-mode="night"] .sign .logo::before { display: none; }
+[data-mode="night"] .sign .pxlogo { filter: drop-shadow(0 0 5px color-mix(in srgb, var(--neon) 70%, transparent)); }
+[data-mode="night"] .sign .name { color: var(--neon); text-shadow: 0 0 8px var(--neon); }
 @media (max-width: 420px) {
   .jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .jobs li:nth-child(odd) .sign { --tilt: -1.4deg; }
