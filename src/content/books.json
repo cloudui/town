@@ -1,0 +1,32 @@
+[
+  {
+    "title": "FlashAttention-2 in CuTe, from Scratch",
+    "desc": "A line-by-line dredge-through of Tri Dao's production FA2.",
+    "date": "May 18, 2026",
+    "href": "https://blog.echen.io/p/flashattention-2-in-cute-from-scratch/"
+  },
+  {
+    "title": "Beyond the Honeymoon",
+    "desc": "Love and commitment past its opening act.",
+    "date": "Jul 24, 2025",
+    "href": "https://blog.echen.io/p/beyond-the-honeymoon/"
+  },
+  {
+    "title": "Two Ways of Counting Chess960 Positions",
+    "desc": "Combinatorics in two perspectives.",
+    "date": "Jun 26, 2025",
+    "href": "https://blog.echen.io/p/two-ways-of-counting-chess960-positions/"
+  },
+  {
+    "title": "Breaking the Bubble",
+    "desc": "How to navigate politics in a polarized world.",
+    "date": "Jun 13, 2025",
+    "href": "https://blog.echen.io/p/breaking-the-bubble/"
+  },
+  {
+    "title": "What are We Doing?",
+    "desc": "A discussion of hackathons, AI, and the death of creativity.",
+    "date": "Apr 30, 2025",
+    "href": "https://blog.echen.io/p/what-are-we-doing/"
+  }
+]

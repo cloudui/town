@@ -141,3 +141,33 @@ body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 var
   .print { transition: none; }
   .print:hover, .print:focus-visible { transform: rotate(var(--tilt, 0deg)); }
 }
+
+/* ---------- Library: shelf of recent blog posts ---------- */
+.shelf-wrap { margin: 18px 0 16px; }
+.shelf { list-style: none; margin: 0; padding: 12px 12px 0; display: flex; align-items: flex-end; gap: 6px; border-bottom: 8px solid var(--edge); }
+.shelf li { flex: 0 1 var(--w, 46px); min-width: 0; height: var(--h, 150px); }
+.shelf li:nth-child(5n+1) { --c: #b3424f; --h: 204px; --w: 56px; }
+.shelf li:nth-child(5n+2) { --c: #4f72a3; --h: 178px; --w: 46px; }
+.shelf li:nth-child(5n+3) { --c: #557a40; --h: 194px; --w: 60px; }
+.shelf li:nth-child(5n+4) { --c: #a86a24; --h: 170px; --w: 46px; }
+.shelf li:nth-child(5n)   { --c: #7a5aa8; --h: 186px; --w: 52px; }
+.card .book { position: relative; display: grid; place-items: center; height: 100%; padding: 16px 5px 16px 1px; overflow: hidden; background: var(--c); color: #fff8ea; text-decoration: none;
+  font: 600 12px/1.1 var(--pixel); letter-spacing: .03em; box-shadow: 0 0 0 2px var(--edge), inset -5px 0 0 rgba(0, 0, 0, .16); transition: transform .12s ease-out; }
+.book::before, .book::after { content: ""; position: absolute; left: 0; right: 0; height: 2px; background: rgba(255, 248, 234, .6); }
+.book::before { top: 8px; }
+.book::after { bottom: 8px; }
+.book span { writing-mode: vertical-rl; max-height: 100%; max-width: 100%; overflow: hidden; text-wrap: balance; }
+.book:hover, .book.on { transform: translateY(-8px); }
+.book:focus-visible { outline: 2px dashed var(--accent); outline-offset: 4px; }
+/* All blurbs share one grid cell, so the box keeps the height of the tallest one. */
+.blurbs { display: grid; margin-top: 14px; padding: 12px 14px; background: var(--chip); }
+.blurb { grid-area: 1 / 1; visibility: hidden; }
+.blurb.on { visibility: visible; }
+.blurb h3 { margin-bottom: 2px; }
+.blurb .date { margin: 0 0 8px; font: 600 13px/1.3 var(--pixel); color: var(--muted); }
+.blurb p { margin: 0 0 8px; font-size: 15px; }
+.blurb > a { display: inline-block; }
+@media (prefers-reduced-motion: reduce) {
+  .book { transition: none; }
+  .book:hover, .book.on { transform: none; }
+}

@@ -1,6 +1,6 @@
 // Moving parts drawn every frame: twinkling stars, drifting clouds, neon signs that
 // flicker on at night, wet-road reflections, petals by day and rain by night,
-// the kernel-shop monitor, the town cat's tail, cart string lights, and hearts.
+// the kernel-shop monitor and chimney smoke, the town cat's tail, cart string lights, and hearts.
 //
 // Effects tied to a code-drawn sprite (the monitor, the cat's tail, sign positions)
 // switch off for an object once you give it a PNG, so they never paint over your art.
@@ -25,7 +25,7 @@ export const fx = {
 const NEON = {
   library: (p) => [{ x: 24, y: 10, w: 27, h: 5, col: "#ffb347", off: p.lib.sign, reflect: true }],
   booth: (p) => [{ x: 1, y: 1, w: 19, h: 5, col: "#ff4fa3", off: p.booth.sign, reflect: true }],
-  shop: (p) => [{ x: 17, y: 5, w: 27, h: 5, col: "#3ff0ff", off: p.shop.sign, reflect: true }],
+  shop: (p) => [{ x: 17, y: 13, w: 27, h: 5, col: "#3ff0ff", off: p.shop.sign, reflect: true }],
   cart: (p) => [{ x: 8, y: 31, w: 23, h: 5, col: "#ff4fa3", off: p.cart.body, reflect: true }],
   mall: (p) => [
     { x: 25, y: 10, w: 30, h: 10, col: "#ff4fa3", off: p.mall.sign, reflect: true },
@@ -138,10 +138,25 @@ export function drawStreet(ctx, t, p) {
   const shop = coded("shop");
   let mx = 0, my = 0;
   if (shop) {
-    mx = ox + shop.x + 7; my = oy + shop.y + 17;
+    mx = ox + shop.x + 7; my = oy + shop.y + 25;
     R(ctx, mx, my, 18, 12, p.shop.screen);
     for (let i = 0; i < 5; i++) { const h = still ? 4 + i : 2 + Math.round(4.5 + 4.5 * Math.sin(t / 420 + i * 0.9)); R(ctx, mx + 2 + i * 3, my + 11 - h, 2, h, p.shop.screenFg); }
     if (((t / 500) | 0) % 2 || still) R(ctx, mx + 16, my + 1, 1, 2, p.shop.screenFg);
+  }
+
+  // chimney smoke while the works are running; the fire's out at night
+  if (shop && !night) {
+    const sx = ox + shop.x + 48, sy = oy + shop.y;
+    for (let i = 0; i < 6; i++) {
+      const k = still ? (i + 0.5) / 6 : (t / 4200 + i / 6) % 1; // 0 = just out, 1 = gone
+      const size = 2 + Math.floor(k * 4);
+      const x = sx + Math.round(k * k * 12 + Math.sin(k * 6 + i * 2.4) * 1.5) - (size >> 1);
+      const y = sy - Math.round(k * 26) - size;
+      ctx.globalAlpha = Math.min(1, 1.6 * (1 - k));
+      R(ctx, x, y, size, size, p.shop.smokeS);
+      R(ctx, x, y, size, size - 1, p.shop.smoke);
+    }
+    ctx.globalAlpha = 1;
   }
 
   // town cat: tail and blink

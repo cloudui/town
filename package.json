@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "books": "node scripts/sync-books.mjs",
+    "prebuild": "npm run books",
     "build": "astro build",
     "preview": "astro preview",
     "og": "node scripts/og-image.mjs"

@@ -34,6 +34,9 @@ function sBooth(c, p) {
 
 function sShop(c, p) {
   const S = p.shop, r = rng(11);
+  // chimney, poking 8px above the roofline (effects.js adds the smoke)
+  R(c, 45, 2, 7, 6, S.chim); R(c, 50, 2, 2, 6, S.chimS); R(c, 44, 0, 9, 2, S.chimS);
+  c.save(); c.translate(0, 8); // the rest of the shop sits below it
   R(c, 1, 3, 60, 51, S.wall); R(c, 0, 0, 62, 3, S.trim);
   for (let i = 0; i < 22; i++) R(c, 2 + (r() * 55 | 0), 13 + (r() * 38 | 0), 3, 1, S.shade);
   R(c, 15, 4, 32, 7, S.sign); txt(c, "KERNELS", 17, 5, S.signT);
@@ -44,6 +47,7 @@ function sShop(c, p) {
   for (let y = 28; y < 54; y += 3) R(c, 32, y, 26, 1, S.doorL);
   R(c, 32, 22, 26, 5, S.dark);
   R(c, 27, 46, 5, 3, S.leaf); R(c, 28, 49, 3, 5, S.pot);
+  c.restore();
 }
 
 function sCart(c, p) {
@@ -94,7 +98,7 @@ function sMall(c, p) {
 export const OBJECTS = [
   { id: "library", x: 6,   y: 62,  w: 76, h: 66, draw: sLibrary },
   { id: "booth",   x: 86,  y: 86,  w: 22, h: 42, draw: sBooth },
-  { id: "shop",    x: 114, y: 74,  w: 62, h: 54, draw: sShop },
+  { id: "shop",    x: 114, y: 66,  w: 62, h: 62, draw: sShop },
   { id: "cart",    x: 182, y: 82,  w: 40, h: 46, draw: sCart },
   { id: "mailbox", x: 226, y: 112, w: 10, h: 16, draw: sMailbox },
   { id: "cat",     x: 226, y: 103, w: 10, h: 9,  draw: sCat },

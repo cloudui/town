@@ -30,6 +30,8 @@ The scene code in `src/scripts/`:
 | `effects.js` | Neon flicker, reflections, rain/petals, clouds, stars, cat tail, hearts, day/night fade |
 | `hotspots.js` | Clickable shapes (from alpha), hover outlines and labels, touch tap-twice |
 | `panels.js` | Opening/closing cards, focus handling, copy email |
+| `photobooth.js` | The photo booth's print grid and viewer |
+| `bookshelf.js` | The Library's shelf of recent blog posts |
 | `theme.js` | Day/night toggle |
 | `palette.js`, `pixel.js` | Colors and small drawing helpers |
 
@@ -41,7 +43,7 @@ Each object loads `public/art/day/<name>.png` and `public/art/night/<name>.png` 
 | --- | --- | --- |
 | `library` | 76 × 66 | 6, 62 |
 | `booth` | 22 × 42 | 86, 86 |
-| `shop` | 62 × 54 | 114, 74 |
+| `shop` | 62 × 62 | 114, 66 |
 | `cart` | 40 × 46 | 182, 82 |
 | `mailbox` | 10 × 16 | 226, 112 |
 | `cat` | 10 × 9 | 226, 103 |
@@ -54,7 +56,7 @@ Exporting from Pixquare:
 - The mall's storefront links (GitHub, X, LinkedIn) are rectangles inside the mall: x 3, 29, 55 (each 22 wide), y 43 to 70. Keep storefronts roughly there, or edit `SPOTS` in `hotspots.js`.
 - Which PNGs exist is checked at build time, so missing files never cause 404s. In `npm run dev`, just refresh after adding one.
 
-Once an object uses a PNG, the code-only animations drawn on top of it switch off so they don't paint over your art: the shop's monitor, the cat's tail and blink, the cart's string lights, that object's neon signs, and the reading cat's glowing eye. Lamps, rain/petals, and the sky keep running. To bring a neon glow back for your art, add its sign rectangle to `NEON` in `effects.js`.
+Once an object uses a PNG, the code-only animations drawn on top of it switch off so they don't paint over your art: the shop's monitor and chimney smoke, the cat's tail and blink, the cart's string lights, that object's neon signs, and the reading cat's glowing eye. Lamps, rain/petals, and the sky keep running. To bring a neon glow back for your art, add its sign rectangle to `NEON` in `effects.js`.
 
 To add a new building: draw it, add a row to `OBJECTS` in `sprites.js` (a `draw` function is optional if you only ship PNGs; give it `draw: () => {}`), a hotspot in `SPOTS` in `hotspots.js`, and its text in `places` in `src/content/site.js`.
 
@@ -76,6 +78,10 @@ cwebp -q 75 -resize 480 0 photo.jpg -o public/photos/name-thumb.webp
 ```
 
 Landscape 4:3 photos fit the frames best; other shapes are center-cropped in the thumbnail and shown whole when opened.
+
+## Library books
+
+The Library panel shows the five newest posts from [blog.echen.io](https://blog.echen.io) as books; hovering one shows its title and description. The list lives in `src/content/books.json` and is refreshed from the blog's live front page by `npm run books`, which also runs before every `npm run build`. Drafts never appear because they aren't published. The deploy workflow also rebuilds weekly, so a new post shows up within a week without touching this repo (or right away via Actions → Deploy to GitHub Pages → Run workflow). If the blog can't be reached, the committed `books.json` is used as is.
 
 ## Icons and link preview
 

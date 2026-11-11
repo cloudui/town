@@ -2,6 +2,7 @@
 // Renders each panel from src/content/site.js into a <template>.
 // panels.js clones the right one into the card when a place is opened.
 import { panels, directory } from "../content/site.js";
+import books from "../content/books.json";
 
 const ext = { target: "_blank", rel: "noopener" };
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
@@ -45,6 +46,37 @@ const photo = (file: string, thumb = false) => `${base}photos/${file}${thumb ? "
           </div>
         </div>
       </>
+    )}
+    {p.shelf && books.length > 0 && (
+      <div class="shelf-wrap" data-shelf>
+        <ul class="shelf">
+          {books.map((b, i) => (
+            <li>
+              <a
+                class:list={["book", { on: i === 0 }]}
+                href={b.href}
+                {...ext}
+                data-book={i}
+                aria-label={[b.title, b.desc].filter(Boolean).join(": ")}
+              >
+                <span aria-hidden="true">{b.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        {/* Every blurb is stacked in one grid cell and only the picked one is visible,
+            so the box is always as tall as the longest and never jumps. */}
+        <div class="blurbs">
+          {books.map((b, i) => (
+            <div class:list={["blurb", { on: i === 0 }]} data-blurb>
+              <h3>{b.title}</h3>
+              {b.date && <p class="date">{b.date}</p>}
+              <p>{b.desc}</p>
+              <a href={b.href} {...ext}>Read it →</a>
+            </div>
+          ))}
+        </div>
+      </div>
     )}
     {p.items && (
       <ul class="list">

@@ -39,6 +39,7 @@ export const places = {
 //   items: cards with a title, a small chip, text, and a link
 //   link:  one link under the text
 //   email: shows the address with a Copy button
+//   shelf: the bookshelf of recent blog posts (Library only)
 export const panels = {
   work: {
     title: "Kernel works",
@@ -69,7 +70,10 @@ export const panels = {
     body: [
       "I write about behavior, emotions, relationships, and how I think about life. Lately, also about GPU kernels.",
     ],
-    link: { label: "Visit the blog at blog.echen.io →", href: links.blog.href },
+    // Shows the newest posts as books on a shelf. They come from src/content/books.json,
+    // which `npm run books` (and every build) refreshes from the live blog.
+    shelf: true,
+    link: { label: "More posts on blog.echen.io →", href: links.blog.href },
   },
   photos: {
     title: "Photo booth",
