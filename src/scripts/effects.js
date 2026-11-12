@@ -196,7 +196,7 @@ export function drawStreet(ctx, t, p) {
   for (const [x, y, c] of bulbs) glow(ctx, x, y, 4, c, 0.4);
   if (cat && !blink) { glow(ctx, kx + 3.5, ky + 2.5, 3, "#ffd84a", 0.6); glow(ctx, kx + 6.5, ky + 2.5, 3, "#ffd84a", 0.6); }
   const lib = coded("library");
-  if (lib) glow(ctx, ox + lib.x + 28.5, oy + lib.y + 48.5, 3, "#3ff0ff", 0.4); // reading cat's eye
+  if (lib) for (const ex of [23.5, 26.5]) glow(ctx, ox + lib.x + ex, oy + lib.y + 49.5, 1.6, "#3ff0ff", 0.35); // reading cat's eyes
   ctx.globalCompositeOperation = "source-over";
 }
 

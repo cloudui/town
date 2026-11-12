@@ -16,10 +16,16 @@ function sLibrary(c, p) {
   R(c, 10, 56, 56, 3, L.col); R(c, 10, 58, 56, 1, L.colS);
   R(c, 6, 59, 64, 3, L.col); R(c, 6, 61, 64, 1, L.colS);
   R(c, 2, 62, 72, 4, L.col); R(c, 2, 65, 72, 1, L.colS);
-  // grey cat reading on the steps
-  R(c, 19, 55, 3, 1, G.furS); R(c, 21, 53, 1, 3, G.fur); R(c, 22, 51, 6, 5, G.fur); R(c, 22, 54, 6, 1, G.furS);
-  R(c, 25, 47, 5, 4, G.fur); R(c, 25, 46, 1, 1, G.fur); R(c, 29, 46, 1, 1, G.fur); R(c, 28, 48, 1, 1, G.eye);
-  R(c, 29, 50, 4, 4, G.book); R(c, 30, 50, 2, 1, G.page); R(c, 28, 52, 1, 1, G.fur);
+  // tuxedo cat sitting on the steps, facing us, behind an open book (10x9, like the town cat)
+  const X = 20, Y = 47;
+  R(c, X + 2, Y, 1, 1, G.fur); R(c, X + 7, Y, 1, 1, G.fur);                 // ears
+  R(c, X + 2, Y + 1, 6, 4, G.fur);                                          // head
+  R(c, X + 3, Y + 2, 1, 1, G.eye); R(c, X + 6, Y + 2, 1, 1, G.eye);
+  R(c, X + 4, Y + 3, 2, 2, G.white); R(c, X + 4, Y + 3, 2, 1, G.nose);      // white muzzle, pink nose
+  R(c, X - 3, Y + 8, 3, 1, G.fur); R(c, X - 3, Y + 7, 1, 1, G.fur);         // tail along the step
+  // open book propped in front, pages toward us: red cover, two white pages with a line of text each, dark spine
+  R(c, X, Y + 5, 10, 4, G.book); R(c, X + 4, Y + 5, 2, 4, G.bookS);
+  for (const bx of [X + 1, X + 6]) { R(c, bx, Y + 5, 3, 3, G.page); R(c, bx, Y + 6, 2, 1, G.ink); }
 }
 
 function sBooth(c, p) {
