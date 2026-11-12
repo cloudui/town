@@ -45,3 +45,6 @@ Plain modern JS modules, terse but commented: each file opens with a short comme
 ## Deploy
 
 Pushing to `main` builds and publishes via `.github/workflows/deploy.yml`, which also runs weekly so new blog posts reach the Library shelf. Don't commit or push unless asked.
+
+## Note
+You as the AI own the codebase. Feel free to make sweeping changes and code modifications to fit the necessary problems at hand. Don't have allegiance to the code already written in this repository. This may change as I (eric) take more control of the design. 
